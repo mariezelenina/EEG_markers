@@ -1,11 +1,6 @@
 import re
 from collections import OrderedDict
 
-# open data file
-inputFileName = raw_input("Please input name of data file. Example format: 2OTPH_19        ")
-
-# todo iterate through files
-
 
 def create_marker_dict(InputFileName):
     # create dict to put data into.
@@ -29,13 +24,44 @@ def create_marker_dict(InputFileName):
 
     return markers_dict
 
+# write results in file
+def write_into_file(created_dict, InputFileName, OutputFileName='markersfile.txt'):
+    outputFile = open(OutputFileName, 'a')
+    outputFile.write('\n\n\n'+InputFileName+'\n\n')
+    for (k,v) in created_dict.iteritems():
+        outputFile.write(str(k)+str(v)+'\n')
+    outputFile.close()
+#------------------------------------------------------------------------------------------------
 
+# open data file
+#inputFileName = raw_input("Please input name of data file. Example format: 2OTPH_19        ")
+
+# todo iterate through files
+# because of name inconsistency with participant 02, we will write data manually prom participants 01 and 02
+
+inputFileName = 'OTPH_01'
 created_dict = create_marker_dict(inputFileName)
-# dictionary now looks like: markers_2OTPH_19: {marker decription: [all its position]}
+write_into_file(created_dict, inputFileName)
 
-#print markers_2OTPH_19
-print inputFileName
-for (k,v) in created_dict.iteritems():
-    print k, v
+inputFileName = '2OTPH_01'
+created_dict = create_marker_dict(inputFileName)
+write_into_file(created_dict, inputFileName)
 
+inputFileName = '2OTPH_02'
+created_dict = create_marker_dict(inputFileName)
+write_into_file(created_dict, inputFileName)
 
+inputFileName = '3OTPH_02'
+created_dict = create_marker_dict(inputFileName)
+write_into_file(created_dict, inputFileName)
+
+# now iterate through filenames
+for participant_id in ['03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19','20']:
+    # 1st trial
+    inputFileName = 'OTPH_'+participant_id
+    created_dict = create_marker_dict(inputFileName)
+    write_into_file(created_dict, inputFileName)
+    #2nd trial
+    inputFileName = '2OTPH_'+participant_id
+    created_dict = create_marker_dict(inputFileName)
+    write_into_file(created_dict, inputFileName)
